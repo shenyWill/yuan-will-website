@@ -1,16 +1,16 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import Vue from 'vue';
+import Router from 'vue-router';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
-import Menu from '@/views/layout/Menu'
+import Menu from '@/views/layout/Menu';
 
-import Home from '@/views/home/Index'
+import Home from '@/views/home/Index';
 
-import Case from '@/views/case/Case'
+import Case from '@/views/case/Case';
 
-Vue.use(Router)
-Vue.use(ElementUI)
+Vue.use(Router);
+Vue.use(ElementUI);
 
 export default new Router({
   routes: [
@@ -36,4 +36,4 @@ export default new Router({
       }]
     }
   ]
-})
+});
