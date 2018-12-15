@@ -4,8 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import './utils/rem'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  // TODO Check Login Auth
+  next()
+  NProgress.done()
+})
 
 /* eslint-disable no-new */
 new Vue({
