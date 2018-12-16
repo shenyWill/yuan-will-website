@@ -7,6 +7,9 @@
             <span class="banner-content" v-html="bannerObj.content"></span>
             <span class="banner-time" v-html="bannerObj.time"></span>
         </div>
+        <div class="index-content">
+            <div class="index-content-article"></div>
+        </div>
     </div>
 </template>
 
@@ -76,6 +79,19 @@ export default {
         left: 152px;
         font-size: 20px;
         color: #666;
+    }
+    .index-content {
+        width: 100%;
+        overflow: hidden;
+        background-color: #eeeeee;
+        box-sizing: border-box;
+        padding: 10px 120px;
+    }
+    .index-content-article {
+        width: 75%;
+        height: 2000px;
+        background-color: #fff;
+        float: left;
     }
 }
 </style>
