@@ -33,10 +33,10 @@ export default {
 <style lang="scss" scoped>
 .menu {
   .el-menu-item,.el-submenu {
-    font-size: 19px;
+    font-size: 20px;
   }
   .el-submenu__title {
-      font-size: 19px;
+      font-size: 20px;
   }
   .menu-list {
       position: relative;
@@ -59,13 +59,13 @@ export default {
       float: left;
       .iconfont {
           color: #000;
-          font-size: 19px;
+          font-size: 20px;
       }
       .is-active .iconfont {
           color: #0066ff;
       }
       .el-submenu {
-          margin-top: 2px;
+          margin-top: 0px;
       }
   }
 }

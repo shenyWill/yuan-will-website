@@ -8,7 +8,13 @@
             <span class="banner-time" v-html="bannerObj.time"></span>
         </div>
         <div class="index-content">
-            <div class="index-content-article"></div>
+            <!-- 文章列表 -->
+            <div class="index-content-article">
+                <span class="content-article-slog"></span>
+                <p class="content-article-title">最新文章</p>
+            </div>
+            <!-- 评论列表 -->
+            <div class="index-content-comment"></div>
         </div>
     </div>
 </template>
@@ -20,7 +26,8 @@ export default {
     data () {
         return {
             bannerImg: require('@/assets/images/banner.png'),
-            bannerObj: {}
+            bannerObj: {},
+            articleArr: []
         };
     },
     methods: {
@@ -31,10 +38,22 @@ export default {
                 this.$set(this.bannerObj, 'content', response.data.content.rendered.replace(/<\/?.+?>/g, ''));
                 this.$set(this.bannerObj, 'time', response.data.date.replace('T', ' '));
             }
+        },
+        async articleResponseAPI () {
+            const response = await api.get(config.home.lastestArt);
+            const MediaResponse = await api.get(config.home.mediaList);
+            if (Number(response.status) === 200 && Number(MediaResponse.status) === 200) {
+                response.data.forEach(item => {
+                    var obj = {};
+                    obj.title = item.title.rendered;
+                    obj.desc = item.content.rendered.replace(/<\/?.+?>/g, '');
+                });
+            }
         }
     },
     async mounted () {
         this.bannerResponseAPI();
+        this.articleResponseAPI();
     }
 };
 </script>
@@ -92,6 +111,30 @@ export default {
         height: 2000px;
         background-color: #fff;
         float: left;
+        position: relative;
+    }
+    .index-content-comment {
+        width: 23%;
+        height: 1000px;
+        background-color: #fff;
+        float: right;
+    }
+    .content-article-slog {
+        display: block;
+        position: absolute;
+        width: 40px;
+        height: 10px;
+        background-color: #0066ff;
+        top: 30px;
+        left: 30px;
+    }
+    .content-article-title {
+        text-align: left;
+        text-indent: 30px;
+        font-size: 24px;
+        color: #000;
+        font-weight: bold;
+        margin: 50px auto 60px auto;
     }
 }
 </style>
