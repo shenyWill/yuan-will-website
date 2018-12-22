@@ -12,6 +12,15 @@
             <div class="index-content-article">
                 <span class="content-article-slog"></span>
                 <p class="content-article-title">最新文章</p>
+                <ul class="content-article-nav" v-for="item in articleArr" :key="item.title">
+                    <img :src="item.banner" alt="" class="content-article-img">
+                    <div class="content-article-detail">
+                        <div class="detail-title">{{item.title}}</div>
+                        <div class="detail-context">{{item.desc}}</div>
+                        <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
+                        <div class="detail-btn">查看详情>></div>
+                    </div>
+                </ul>
             </div>
             <!-- 评论列表 -->
             <div class="index-content-comment"></div>
@@ -22,6 +31,7 @@
 <script>
 import api from '@/api';
 import config from '@/config';
+import { parseTime } from '@/utils';
 export default {
     data () {
         return {
@@ -41,12 +51,20 @@ export default {
         },
         async articleResponseAPI () {
             const response = await api.get(config.home.lastestArt);
-            const MediaResponse = await api.get(config.home.mediaList);
-            if (Number(response.status) === 200 && Number(MediaResponse.status) === 200) {
+            const mediaResponse = await api.get(config.home.mediaList);
+            if (Number(response.status) === 200 && Number(mediaResponse.status) === 200) {
                 response.data.forEach(item => {
                     var obj = {};
                     obj.title = item.title.rendered;
                     obj.desc = item.content.rendered.replace(/<\/?.+?>/g, '');
+                    obj.time = parseTime(item.date);
+                    obj.id = item.id;
+                    item['_links']['wp:featuredmedia'] && mediaResponse.data.forEach(mediaItem => {
+                        if (item['_links']['wp:featuredmedia'][0].href === mediaItem['_links']['self'][0].href) {
+                            obj.banner = mediaItem.guid.rendered;
+                        }
+                    });
+                    this.articleArr.push(obj);
                 });
             }
         }
@@ -67,9 +85,13 @@ export default {
         height: 410px;
         position: relative;
         cursor: pointer;
+        box-sizing: border-box;
+        padding: 10px 120px;
+        background-color: #eeeeee;
     }
     .banner-image {
         height: 100%;
+        border-radius: 10px;
         width: 100%;
     }
     .banner-title {
@@ -85,7 +107,7 @@ export default {
         left: 150px;
         font-size: 30px;
         color: #666;
-        width: 60%;
+        width: 60%;width: 60%;
         overflow: hidden;
         height: 50px;
         display: block;
@@ -108,16 +130,18 @@ export default {
     }
     .index-content-article {
         width: 75%;
-        height: 2000px;
+        // height: 2000px;
         background-color: #fff;
         float: left;
         position: relative;
+        border-radius: 10px;
     }
     .index-content-comment {
         width: 23%;
         height: 1000px;
         background-color: #fff;
         float: right;
+        border-radius: 10px;
     }
     .content-article-slog {
         display: block;
@@ -134,7 +158,63 @@ export default {
         font-size: 24px;
         color: #000;
         font-weight: bold;
-        margin: 50px auto 60px auto;
+        margin: 50px auto 0 auto;
+    }
+    .content-article-nav {
+        height: 188px;
+        text-align: left;
+        overflow: hidden;
+        padding: 30px;
+        margin: 0;
+        position: relative;
+    }
+    .content-article-img{
+        width: 300px;
+        height: 185px;
+        border-radius: 10px;
+    }
+    .content-article-detail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        padding: 30px 30px 30px 345px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .detail-title {
+        font-size: 24px;
+        color: #333;
+        font-weight: lighter;
+        margin-bottom: 20px;
+    }
+    .detail-context {
+        font-size: 18px;
+        color: #666;
+        line-height: 33px;
+        display: -webkit-box;
+        overflow: hidden;
+        height: 90px;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 3;
+        line-height: 1.8;
+    }
+    .detail-time {
+        font-size: 14px;
+        color: #999;
+        height: 50px;
+        line-height: 50px;
+    }
+    .detail-btn {
+        position: absolute;
+        font-size: 16px;
+        color: #0066ff;
+        right: 40px;
+        bottom: 37px;
+        cursor: pointer;
     }
 }
 </style>
