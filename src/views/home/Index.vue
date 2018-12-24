@@ -22,10 +22,6 @@
                     </div>
                 </ul>
             </div>
-            <!-- 评论列表 -->
-            <div class="index-content-comment">
-                <RightBar></RightBar>
-            </div>
         </div>
     </div>
 </template>
@@ -92,7 +88,7 @@ export default {
         position: relative;
         cursor: pointer;
         box-sizing: border-box;
-        padding: 10px 120px;
+        padding-bottom: 10px;
         background-color: #eeeeee;
     }
     .banner-image {
@@ -113,7 +109,7 @@ export default {
         left: 150px;
         font-size: 30px;
         color: #666;
-        width: 60%;width: 60%;
+        width: 60%;
         overflow: hidden;
         height: 50px;
         display: block;
@@ -132,22 +128,15 @@ export default {
         overflow: hidden;
         background-color: #eeeeee;
         box-sizing: border-box;
-        padding: 10px 120px;
+        padding: 10px 0;
     }
     .index-content-article {
-        width: 75%;
+        width: 100%;
         // height: 2000px;
         background-color: #fff;
         float: left;
         position: relative;
         border-radius: 10px;
-    }
-    .index-content-comment {
-        width: 23%;
-        // height: 1000px;
-        // background-color: #fff;
-        float: right;
-        // border-radius: 10px;
     }
     .content-article-slog {
         display: block;

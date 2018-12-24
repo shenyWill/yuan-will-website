@@ -20,6 +20,7 @@ export default {
   color: #2c3e50;
   width: 100%;
   margin: 0 auto;
+  background-color: #eeeeee;
 }
 html::-webkit-scrollbar {
     width: 8px;

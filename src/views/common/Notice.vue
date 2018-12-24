@@ -1,6 +1,6 @@
 <template>
     <div class="notice">
-        <div class="notice-title">公　告</div>
+        <div class="notice-title">网站公告</div>
         <p class="notice-contain">本网站采用vue+wordpress,网站源码存放在个人GitHub上</p>
         <a class="notice-github" href="https://github.com/shenyWill/yuan-will-website" target="_black">
         <img src="http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/timg.jpg" alt="图片出差了"></a>

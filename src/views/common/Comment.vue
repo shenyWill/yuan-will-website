@@ -43,10 +43,17 @@ export default {
     },
     methods: {
         ...mapActions([
-            'changeArticleTitleList'
+            'changeArticleTitleList',
+            'changeArticleCount',
+            'changeCommentCount',
+            'changeUpdateTime'
         ]),
         async init () {
             const response = await api.get(config.home.lastestArt, {per_page: 99});
+            const articleCount = response.headers['x-wp-total'];
+            const updateTime = parseTime(response.headers['date']).split(' ')[0];
+            this.changeUpdateTime(updateTime);
+            this.changeArticleCount(articleCount);
             if (Number(response.status) === 200) {
                 const list = [];
                 response.data.forEach(item => {
@@ -57,6 +64,8 @@ export default {
         },
         async responseAPI () {
             const response = await api.get(config.comments.list, {page: 1});
+            const commentCount = response.headers['x-wp-total'];
+            this.changeCommentCount(commentCount);
             if (Number(response.status) === 200) {
                 response.data.forEach(item => {
                     let obj = {};
