@@ -13,13 +13,14 @@ Vue.use(Router);
 Vue.use(ElementUI);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       component: Menu,
-      redirect: '/index',
+      redirect: '/',
       children: [{
-        path: '/index',
+        path: '/',
         component: Home,
         name: 'Home',
         meta: { title: '首页', icon: '', cache: false }

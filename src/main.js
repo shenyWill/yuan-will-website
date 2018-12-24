@@ -9,6 +9,8 @@ import 'nprogress/nprogress.css';
 import './assets/iconfont/iconfont.css';
 import './assets/css/reset.css';
 
+import store from './store';
+
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
@@ -21,6 +23,7 @@ router.beforeEach((to, from, next) => {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'

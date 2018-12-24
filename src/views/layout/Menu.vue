@@ -3,7 +3,7 @@
         <div class="menu-list">
             <img :src="logoImg" alt="" class="logo-img">
             <el-menu mode="horizontal" :router="true" class="menu-nav">
-                <el-menu-item index="/index"><i class="iconfont icon-zhuye"> 主页</i></el-menu-item>
+                <el-menu-item index="/"><i class="iconfont icon-zhuye"> 主页</i></el-menu-item>
                 <el-menu-item index="/case/index"><i class="iconfont icon-xiangmu"> 实战案例</i></el-menu-item>
                 <el-submenu index="3">
                     <template slot="title"><i class="iconfont icon-biji"> 笔记</i></template>

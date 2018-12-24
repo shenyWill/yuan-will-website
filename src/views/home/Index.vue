@@ -13,9 +13,9 @@
                 <span class="content-article-slog"></span>
                 <p class="content-article-title">最新文章</p>
                 <ul class="content-article-nav" v-for="item in articleArr" :key="item.title">
-                    <img :src="item.banner" alt="" class="content-article-img">
+                    <span class="content-article-img-content"><img :src="item.banner" alt="" class="content-article-img"></span>
                     <div class="content-article-detail">
-                        <div class="detail-title">{{item.title}}</div>
+                        <span class="detail-title">{{item.title}}</span>
                         <div class="detail-context">{{item.desc}}</div>
                         <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
                         <div class="detail-btn">查看详情>></div>
@@ -23,7 +23,9 @@
                 </ul>
             </div>
             <!-- 评论列表 -->
-            <div class="index-content-comment"></div>
+            <div class="index-content-comment">
+                <RightBar></RightBar>
+            </div>
         </div>
     </div>
 </template>
@@ -32,6 +34,7 @@
 import api from '@/api';
 import config from '@/config';
 import { parseTime } from '@/utils';
+import RightBar from '@/views/common/RightBar';
 export default {
     data () {
         return {
@@ -68,6 +71,9 @@ export default {
                 });
             }
         }
+    },
+    components: {
+        RightBar
     },
     async mounted () {
         this.bannerResponseAPI();
@@ -138,10 +144,10 @@ export default {
     }
     .index-content-comment {
         width: 23%;
-        height: 1000px;
-        background-color: #fff;
+        // height: 1000px;
+        // background-color: #fff;
         float: right;
-        border-radius: 10px;
+        // border-radius: 10px;
     }
     .content-article-slog {
         display: block;
@@ -160,18 +166,31 @@ export default {
         font-weight: bold;
         margin: 50px auto 0 auto;
     }
+    .content-article-img-content{
+        display: block;
+        height: 185px;
+        width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
     .content-article-nav {
         height: 188px;
         text-align: left;
         overflow: hidden;
         padding: 30px;
         margin: 0;
+        border-radius: 10px;
         position: relative;
+        &:hover {
+            .content-article-img {
+                transform: scale(1.1);
+            }
+        }
     }
     .content-article-img{
         width: 300px;
+        transition: all 0.5s;
         height: 185px;
-        border-radius: 10px;
     }
     .content-article-detail {
         position: absolute;
@@ -188,9 +207,32 @@ export default {
         color: #333;
         font-weight: lighter;
         margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #000;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition-duration: 0.2s;
+            transition-timing-function: ease-in-out;
+            transition-delay: 0s;
+        }
+        &:hover {
+            &::before {
+            visibility: visible;
+            transform: scaleX(1);
+            }
+        }
     }
     .detail-context {
-        font-size: 18px;
+        font-size: 14px;
         color: #666;
         line-height: 33px;
         display: -webkit-box;
@@ -200,7 +242,7 @@ export default {
         word-break: break-all;
         text-overflow: ellipsis;
         -webkit-line-clamp: 3;
-        line-height: 1.8;
+        line-height: 30px;
     }
     .detail-time {
         font-size: 14px;

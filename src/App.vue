@@ -21,5 +21,18 @@ export default {
   width: 100%;
   margin: 0 auto;
 }
-
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+}
+html::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(119, 203, 223, 0.993);
+    background: rgba(119, 203, 223, 0.993);
+}
+html::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 5px rgba(119, 203, 223, 0.993);
+    border-radius: 0;
+    background: rgba(119, 203, 223, 0.993);
+}
 </style>
