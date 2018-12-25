@@ -9,6 +9,8 @@ import Home from '@/views/home/Index';
 
 import Categories from '@/views/categories/Categories';
 
+import Detail from '@/views/detail/Detail';
+
 Vue.use(Router);
 Vue.use(ElementUI);
 
@@ -30,6 +32,11 @@ export default new Router({
         component: Categories,
         name: 'Categories',
         meta: { title: '相关分类', icon: '', cache: false }
+      }, {
+        path: '/detail',
+        component: Detail,
+        name: 'Detail',
+        meta: { title: '文章详情', icon: '', cache: false }
       }]
     }
   ]

@@ -18,7 +18,7 @@
                         <span class="detail-title">{{item.title}}</span>
                         <div class="detail-context">{{item.desc}}</div>
                         <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
-                        <div class="detail-btn">查看详情>></div>
+                        <div class="detail-btn"><router-link :to="'detail?id='+item.id">查看详情>></router-link></div>
                     </div>
                 </ul>
             </div>
@@ -258,6 +258,13 @@ export default {
         right: 40px;
         bottom: 37px;
         cursor: pointer;
+        a {
+            text-decoration: none;
+            color: #0066ff;
+            &:active {
+                color: #0066ff;
+            }
+        }
     }
 }
 </style>
