@@ -4,12 +4,12 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-    articleTitleList: [],
-    articleCount: 0,
-    commentCount: 0,
-    updateTime: '',
-    categoriesList: [],
-    mediaList: []
+    articleTitleList: [], // 文章标题列表
+    articleCount: 0, // 文章数量
+    commentCount: 0, // 评论数量
+    updateTime: '', // 最近更新时间
+    categoriesList: [], // 分类列表
+    mediaList: [] // 图片列表
 };
 
 const mutations = {

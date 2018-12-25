@@ -93,6 +93,7 @@ export default {
     overflow: hidden;
     text-align: left;
     margin-top: 20px;
+    margin-bottom: 50px;
     .comment-title {
         font-size: 24px;
         position: relative;
