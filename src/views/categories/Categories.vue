@@ -1,27 +1,22 @@
 <template>
-    <div class="index">
-        <!-- 首页banner -->
-        <div class="index-banner">
-            <img :src="bannerImg" alt="图片没有找到哦" class="banner-image">
-            <span class="banner-title">{{bannerObj.title}}</span>
-            <span class="banner-content" v-html="bannerObj.content"></span>
-            <span class="banner-time" v-html="bannerObj.time"></span>
+    <div class="categories">
+        <div class="categories-title">
+            当前分类：{{categoryName}}
         </div>
-        <div class="index-content">
-            <!-- 文章列表 -->
-            <div class="index-content-article">
-                <span class="content-article-slog"></span>
-                <p class="content-article-title">最新文章</p>
-                <ul class="content-article-nav" v-for="item in articleArr" :key="item.title">
-                    <span class="content-article-img-content"><img :src="item.banner" alt="" class="content-article-img"></span>
-                    <div class="content-article-detail">
-                        <span class="detail-title">{{item.title}}</span>
-                        <div class="detail-context">{{item.desc}}</div>
-                        <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
-                        <div class="detail-btn">查看详情>></div>
-                    </div>
-                </ul>
-            </div>
+        <div class="index-content-article">
+            <ul class="content-article-nav" v-for="item in articleArr" :key="item.title">
+                <span class="content-article-img-content"><img :src="item.banner" alt="" class="content-article-img"></span>
+                <div class="content-article-detail">
+                    <span class="detail-title">{{item.title}}</span>
+                    <div class="detail-context">{{item.desc}}</div>
+                    <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
+                    <div class="detail-btn">查看详情>></div>
+                </div>
+            </ul>
+        </div>
+        <div class="index-content-empty" v-if="empty">
+            <i class="iconfont icon-empty"></i>
+            <span>博主正在努力构建中，请耐心等待~~~</span>
         </div>
     </div>
 </template>
@@ -30,28 +25,31 @@
 import api from '@/api';
 import config from '@/config';
 import { parseTime } from '@/utils';
-import RightBar from '@/views/common/RightBar';
 import {mapActions, mapGetters} from 'vuex';
 export default {
     data () {
         return {
-            bannerImg: require('@/assets/images/banner.png'),
-            bannerObj: {},
-            articleArr: []
+            categoryId: '',
+            categoryName: '',
+            articleArr: [],
+            empty: false
         };
+    },
+    computed: {
+        ...mapGetters([
+            'mediaList'
+        ])
+    },
+    mounted () {
+        this.categoryId = this.$route.query.id;
+        this.categoryName = this.$route.query.title;
+        this.articleArr = [];
+        this.articleResponseAPI();
     },
     methods: {
         ...mapActions([
             'setMediaList'
         ]),
-        async bannerResponseAPI () {
-            const response = await api.get(config.home.lastestArt + '/5');
-            if (Number(response.status) === 200) {
-                this.$set(this.bannerObj, 'title', response.data.title.rendered);
-                this.$set(this.bannerObj, 'content', response.data.content.rendered.replace(/<\/?.+?>/g, ''));
-                this.$set(this.bannerObj, 'time', response.data.date.replace('T', ' '));
-            }
-        },
         async articleResponseAPI () {
             const response = await api.get(config.home.lastestArt, {categories: this.categoryId});
             if (!this.mediaList.length) {
@@ -73,74 +71,45 @@ export default {
                     this.articleArr.push(obj);
                 });
             }
+            this.empty = this.articleArr.length === 0;
         }
     },
-    components: {
-        RightBar
-    },
-    computed: {
-        ...mapGetters([
-            'mediaList'
-        ])
-    },
-    async mounted () {
-        this.bannerResponseAPI();
-        this.articleResponseAPI();
+    watch: {
+        '$route' (to, from) {
+            this.categoryId = this.$route.query.id;
+            this.categoryName = this.$route.query.title;
+            this.articleArr = [];
+            this.articleResponseAPI();
+        }
     }
 };
 </script>
 
 <style lang="scss" scoped>
-.index {
+.categories {
     width: 100%;
+    border-radius: 10px;
+    background-color: #fff;
     overflow: hidden;
-    .index-banner{
-        width: 100%;
-        height: 410px;
+    text-align: left;
+    margin-top: 20px;
+    .categories-title {
+        font-size: 24px;
         position: relative;
-        cursor: pointer;
+        padding: 40px 30px 20px 30px;
         box-sizing: border-box;
-        padding-bottom: 10px;
-        background-color: #eeeeee;
-    }
-    .banner-image {
-        height: 100%;
-        border-radius: 10px;
-        width: 100%;
-    }
-    .banner-title {
-        position: absolute;
-        top: 100px;
-        left: 150px;
-        font-size: 50px;
         color: #000;
-    }
-    .banner-content {
-        position: absolute;
-        top: 190px;
-        left: 150px;
-        font-size: 30px;
-        color: #666;
-        width: 60%;
-        overflow: hidden;
-        height: 50px;
-        display: block;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-    .banner-time {
-        position: absolute;
-        top: 255px;
-        left: 152px;
-        font-size: 20px;
-        color: #666;
-    }
-    .index-content {
-        width: 100%;
-        overflow: hidden;
-        background-color: #eeeeee;
-        box-sizing: border-box;
-        padding: 10px 0;
+        font-weight: bold;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 30px;
+            top: 20px;
+            height: 10px;
+            width: 40px;
+            background-color: #0066ff;
+            display: block;
+        }
     }
     .index-content-article {
         width: 100%;
@@ -149,23 +118,6 @@ export default {
         float: left;
         position: relative;
         border-radius: 10px;
-    }
-    .content-article-slog {
-        display: block;
-        position: absolute;
-        width: 40px;
-        height: 10px;
-        background-color: #0066ff;
-        top: 30px;
-        left: 30px;
-    }
-    .content-article-title {
-        text-align: left;
-        text-indent: 30px;
-        font-size: 24px;
-        color: #000;
-        font-weight: bold;
-        margin: 50px auto 0 auto;
     }
     .content-article-img-content{
         display: block;
@@ -258,6 +210,20 @@ export default {
         right: 40px;
         bottom: 37px;
         cursor: pointer;
+    }
+    .index-content-empty {
+        height: 700px;
+        line-height: 700px;
+        position: relative;
+        text-align: center;
+    }
+    .icon-empty {
+        font-size: 120px;
+        position: absolute;
+        top: 200px;
+        left: 500px;
+        line-height: 30px;
+        color: #0066ff;
     }
 }
 </style>

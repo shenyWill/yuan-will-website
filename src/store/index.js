@@ -7,7 +7,9 @@ const state = {
     articleTitleList: [],
     articleCount: 0,
     commentCount: 0,
-    updateTime: ''
+    updateTime: '',
+    categoriesList: [],
+    mediaList: []
 };
 
 const mutations = {
@@ -22,6 +24,12 @@ const mutations = {
     },
     CHANGE_UPDATE_TIME (state, dataTime) {
         state.updateTime = dataTime;
+    },
+    SET_CATEGORIES_LIST (state, list) {
+        state.categoriesList = [...list];
+    },
+    SET_MEDIA_LIST (state, list) {
+        state.mediaList = [...list];
     }
 };
 
@@ -37,6 +45,12 @@ const actions = {
     },
     changeUpdateTime ({commit}, value) {
         commit('CHANGE_UPDATE_TIME', value);
+    },
+    setCategoriesList ({commit}, value) {
+        commit('SET_CATEGORIES_LIST', value);
+    },
+    setMediaList ({commit}, value) {
+        commit('SET_MEDIA_LIST', value);
     }
 };
 
@@ -44,7 +58,9 @@ const getters = {
     articleTitleList: state => state.articleTitleList,
     articleCount: state => state.articleCount,
     commentCount: state => state.commentCount,
-    updateTime: state => state.updateTime
+    updateTime: state => state.updateTime,
+    categoriesList: state => state.categoriesList,
+    mediaList: state => state.mediaList
 };
 
 const store = new Vuex.Store({

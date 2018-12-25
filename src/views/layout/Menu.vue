@@ -4,22 +4,11 @@
             <img :src="logoImg" alt="" class="logo-img">
             <el-menu mode="horizontal" :router="true" class="menu-nav">
                 <el-menu-item index="/"><i class="iconfont icon-zhuye"> 主页</i></el-menu-item>
-                <el-menu-item index="/case/index"><i class="iconfont icon-xiangmu"> 实战案例</i></el-menu-item>
-                <el-submenu index="3">
-                    <template slot="title"><i class="iconfont icon-biji"> Web前端</i></template>
-                    <el-menu-item index="/index/1">选项1</el-menu-item>
-                    <el-menu-item index="/index/2">选项2</el-menu-item>
-                    <el-menu-item index="/index/3">选项3</el-menu-item>
+                <el-submenu v-for="item in categoriesList" :key="item.id" v-if="item.children.length" :index="''+item.index">
+                    <template slot="title"><i :class="['iconfont', item.icon]"></i> {{item.name}}</template>
+                    <el-menu-item v-for="childItem in item.children" :key="childItem.id" :index="'/categories?id='+childItem.id+'&title='+childItem.name">{{childItem.name}}</el-menu-item>
                 </el-submenu>
-                <el-menu-item index="/index/4"><i class="iconfont icon-fenxiang"> JAVA</i></el-menu-item>
-                <el-menu-item index="/index/4"><i class="iconfont icon-fenxiang"> NodeJS</i></el-menu-item>
-                <el-menu-item index="/index/5"><i class="iconfont icon-biji"> 生活随笔</i></el-menu-item>
-                <el-submenu index="8">
-                    <template slot="title"><i class="iconfont icon-biji"> 关于博主</i></template>
-                    <el-menu-item index="/index/8">选项1</el-menu-item>
-                    <el-menu-item index="/index/9">选项2</el-menu-item>
-                    <el-menu-item index="/index/7">选项3</el-menu-item>
-                </el-submenu>
+                <el-menu-item v-for="item in categoriesList" :key="item.id" v-if="!item.children.length && (item.icon !== 'uncategorized')" :index="'/categories?id='+item.id+'&title='+item.name"><i :class="['iconfont', item.icon]"></i> {{item.name}}</el-menu-item>
             </el-menu>
         </div>
         <!-- 子页面 -->
@@ -33,15 +22,51 @@
 </template>
 
 <script>
+import api from '@/api';
+import config from '@/config';
 import RightBar from '@/views/common/RightBar';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data () {
     return {
         logoImg: require('@/assets/images/logo.png')
     };
   },
+  computed: {
+      ...mapGetters([
+          'categoriesList'
+      ])
+  },
   components: {
     RightBar
+  },
+  methods: {
+      ...mapActions([
+          'setCategoriesList'
+      ]),
+      async initCategories () {
+          const response = await api.get(config.categories.list);
+          if (Number(response.status) === 200) {
+              let list = [];
+              response.data.forEach(item => {
+                  if (Number(item.parent) === 0) {
+                      const obj = {id: item.id, name: item.name, children: [], icon: item.slug};
+                      response.data.forEach(childItem => {
+                          if (Number(childItem.parent) !== 0) {
+                              if (childItem.parent === item.id) {
+                                  obj.children.push({id: childItem.id, name: childItem.name});
+                              }
+                          }
+                      });
+                      list.push(obj);
+                  }
+              });
+              this.setCategoriesList(list);
+          }
+      }
+  },
+  mounted () {
+      this.initCategories();
   }
 };
 </script>
@@ -74,12 +99,21 @@ export default {
   .menu-nav {
       border: 0;
       float: left;
+      overflow: hidden;
+      width: 1200px;
+      height: 60px;
+      line-height: 60px;
+      position: relative;
       .iconfont {
           color: #000;
-          font-size: 20px;
+          font-size: 22px;
       }
       .is-active .iconfont {
-          color: #0066ff;
+          color: #0066ff !important;
+      }
+      .is-active {
+          color: #0066ff !important;
+          font-weight: bold;
       }
       .el-submenu {
           margin-top: 0px;
@@ -104,5 +138,53 @@ export default {
         border-radius: 10px;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.menu-list {
+    .el-menu-item,.el-submenu {
+        // width: 170px;
+        text-align: center;
+        line-height: 60px;
+        padding-right: 30px;
+        color: #000;
+        font-size: 20px;
+        &:hover {
+            color: #0066ff !important;
+            i,.el-submenu__title {
+                color: #0066ff !important;
+            }
+        }
+        i {
+            color: #000 !important;
+            font-size: 22px;
+        }
+        .el-submenu__title {
+            color: #000;
+            line-height: 60px;
+            font-size: 20px;
+        }
+    }
+    .is-active {
+        .el-submenu__title {
+            border: 0 !important;
+            color: #0066ff !important;
+        }
+    }
+}
+.el-menu--popup {
+    border-radius: 10px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    .el-menu-item {
+        font-size: 18px;
+        color: #000 !important;
+        padding: 10px !important;
+        height: 50px !important;
+        line-height: 50px !important;
+        &:hover {
+            color: #0066ff !important;
+        }
+    }
 }
 </style>

@@ -7,33 +7,29 @@ import Menu from '@/views/layout/Menu';
 
 import Home from '@/views/home/Index';
 
-import Case from '@/views/case/Case';
+import Categories from '@/views/categories/Categories';
 
 Vue.use(Router);
 Vue.use(ElementUI);
 
 export default new Router({
   mode: 'history',
+  base: '/',
   routes: [
     {
       path: '/',
       component: Menu,
-      redirect: '/',
+      // redirect: '/',
       children: [{
         path: '/',
         component: Home,
         name: 'Home',
         meta: { title: '首页', icon: '', cache: false }
-      }]
-    }, {
-      path: '/case',
-      component: Menu,
-      redirect: '/case/index',
-      children: [{
-        path: '/case/index',
-        component: Case,
-        name: 'Case',
-        meta: { title: '实战案例', icon: '', cache: false }
+      }, {
+        path: '/categories',
+        component: Categories,
+        name: 'Categories',
+        meta: { title: '相关分类', icon: '', cache: false }
       }]
     }
   ]
