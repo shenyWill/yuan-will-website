@@ -15,7 +15,7 @@
                 <ul class="content-article-nav" v-for="item in articleArr" :key="item.title">
                     <span class="content-article-img-content"><img :src="item.banner" alt="" class="content-article-img"></span>
                     <div class="content-article-detail">
-                        <span class="detail-title">{{item.title}}</span>
+                        <span class="detail-title"><router-link :to="'detail?id='+item.id">{{item.title}}</router-link></span>
                         <div class="detail-context">{{item.desc}}</div>
                         <div class="detail-time"><i class="iconfont icon-shijian"></i> &nbsp;{{item.time}}</div>
                         <div class="detail-btn"><router-link :to="'detail?id='+item.id">查看详情>></router-link></div>
@@ -232,6 +232,13 @@ export default {
             &::before {
             visibility: visible;
             transform: scaleX(1);
+            }
+        }
+        a {
+            text-decoration: none;
+            color: #000;
+            &:active {
+                color: #000;
             }
         }
     }

@@ -18,6 +18,11 @@
                 <RightBar></RightBar>
             </div>
         </div>
+        <div :class="['scroll-top', showTop ? 'show': '']" @click="scrollTop">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-huojian"></use>
+            </svg>
+        </div>
     </div>
 </template>
 
@@ -26,10 +31,12 @@ import api from '@/api';
 import config from '@/config';
 import RightBar from '@/views/common/RightBar';
 import { mapActions, mapGetters } from 'vuex';
+import { smoothscroll } from '@/utils';
 export default {
   data () {
     return {
-        logoImg: require('@/assets/images/logo.png')
+        logoImg: require('@/assets/images/logo.png'),
+        showTop: false
     };
   },
   computed: {
@@ -63,10 +70,21 @@ export default {
               });
               this.setCategoriesList(list);
           }
+      },
+      scrollTop () {
+          smoothscroll();
       }
   },
   mounted () {
       this.initCategories();
+      window.onscroll = () => {
+          var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+          if (currentScroll > 300) {
+              this.showTop = true;
+          } else {
+              this.showTop = false;
+          }
+      };
   }
 };
 </script>
@@ -138,6 +156,23 @@ export default {
         position: relative;
         border-radius: 10px;
     }
+  }
+  .scroll-top {
+      position: fixed;
+      right: -60px;
+      bottom: 100px;
+      font-size: 12px;
+      width: 65px;
+      height: 65px;
+      transition: all 0.5s;
+      cursor: pointer;
+      svg {
+        width: 65px;
+        height: 65px;
+      }
+  }
+  .scroll-top.show {
+      right: 60px;
   }
 }
 </style>

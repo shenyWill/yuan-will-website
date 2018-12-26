@@ -13,7 +13,7 @@ export default {
   name: 'App',
   data () {
     return {
-      loadImg: require('@/assets/images/block-rotate-loading-gif.svg')
+      loadImg: require('@/assets/images/camera-aperture-ajax-spinner.svg')
     };
   },
   computed: {

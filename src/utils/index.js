@@ -31,3 +31,11 @@ export function disTime (startTime, endTime) {
   endTime = new Date(parseTime(endTime));
   return parseInt((endTime - startTime) / 1000 / 60 / 60 / 24);
 }
+
+export function smoothscroll () {
+  var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+         window.requestAnimationFrame(smoothscroll);
+         window.scrollTo(0, currentScroll - (currentScroll / 5));
+    }
+}

@@ -9,6 +9,7 @@ import 'nprogress/nprogress.css';
 import './assets/iconfont/iconfont.js';
 import './assets/iconfont/iconfont.css';
 import './assets/css/reset.css';
+// import './assets/js/prism.js';
 
 import store from './store';
 
