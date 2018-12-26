@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
+    <div class="mark" v-if="loading">
+      <img :src="loadImg" alt="" class="mark-loading">
+    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      loadImg: require('@/assets/images/block-rotate-loading-gif.svg')
+    };
+  },
+  computed: {
+    ...mapGetters([
+      'loading'
+    ])
+  }
 };
 </script>
 
@@ -21,6 +34,21 @@ export default {
   width: 100%;
   margin: 0 auto;
   background-color: #eeeeee;
+}
+.mark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+}
+.mark-loading {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  position: absolute;
 }
 html::-webkit-scrollbar {
     width: 8px;

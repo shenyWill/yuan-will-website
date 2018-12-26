@@ -9,7 +9,8 @@ const state = {
     commentCount: 0, // 评论数量
     updateTime: '', // 最近更新时间
     categoriesList: [], // 分类列表
-    mediaList: [] // 图片列表
+    mediaList: [], // 图片列表
+    loading: false // 全局loading
 };
 
 const mutations = {
@@ -30,6 +31,9 @@ const mutations = {
     },
     SET_MEDIA_LIST (state, list) {
         state.mediaList = [...list];
+    },
+    CHANGE_LOADING (state, boolean) {
+        state.loading = boolean;
     }
 };
 
@@ -51,6 +55,9 @@ const actions = {
     },
     setMediaList ({commit}, value) {
         commit('SET_MEDIA_LIST', value);
+    },
+    changeLoading ({commit}, value) {
+        commit('CHANGE_LOADING', value);
     }
 };
 
@@ -60,7 +67,8 @@ const getters = {
     commentCount: state => state.commentCount,
     updateTime: state => state.updateTime,
     categoriesList: state => state.categoriesList,
-    mediaList: state => state.mediaList
+    mediaList: state => state.mediaList,
+    loading: state => state.loading
 };
 
 const store = new Vuex.Store({

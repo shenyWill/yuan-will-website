@@ -6,6 +6,7 @@ import router from './router';
 import './utils/rem';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import './assets/iconfont/iconfont.js';
 import './assets/iconfont/iconfont.css';
 import './assets/css/reset.css';
 

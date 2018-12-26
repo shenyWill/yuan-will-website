@@ -42,7 +42,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            'setMediaList'
+            'setMediaList',
+            'changeLoading'
         ]),
         async bannerResponseAPI () {
             const response = await api.get(config.home.lastestArt + '/5');
@@ -84,8 +85,10 @@ export default {
         ])
     },
     async mounted () {
-        this.bannerResponseAPI();
-        this.articleResponseAPI();
+        this.changeLoading(true);
+        await this.bannerResponseAPI();
+        await this.articleResponseAPI();
+        this.changeLoading(false);
     }
 };
 </script>

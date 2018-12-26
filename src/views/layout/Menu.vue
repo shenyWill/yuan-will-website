@@ -117,6 +117,7 @@ export default {
       }
       .el-submenu {
           margin-top: 0px;
+          padding-right: 10px;
       }
   }
   .content {

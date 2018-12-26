@@ -48,9 +48,11 @@ export default {
     },
     methods: {
         ...mapActions([
-            'setMediaList'
+            'setMediaList',
+            'changeLoading'
         ]),
         async articleResponseAPI () {
+            this.changeLoading(true);
             const response = await api.get(config.home.lastestArt, {categories: this.categoryId});
             if (!this.mediaList.length) {
                 const mediaResponse = await api.get(config.home.mediaList);
@@ -72,6 +74,7 @@ export default {
                 });
             }
             this.empty = this.articleArr.length === 0;
+            this.changeLoading(false);
         }
     },
     watch: {

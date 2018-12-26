@@ -1,6 +1,5 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
-
 const service = axios.create({
   // global axios config
 });
