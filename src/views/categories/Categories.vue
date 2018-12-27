@@ -26,6 +26,7 @@ import api from '@/api';
 import config from '@/config';
 import { parseTime } from '@/utils';
 import {mapActions, mapGetters} from 'vuex';
+import NProgress from 'nprogress';
 export default {
     data () {
         return {
@@ -53,6 +54,7 @@ export default {
         ]),
         async articleResponseAPI () {
             this.changeLoading(true);
+            NProgress.start();
             const response = await api.get(config.home.lastestArt, {categories: this.categoryId});
             if (!this.mediaList.length) {
                 const mediaResponse = await api.get(config.home.mediaList);
@@ -75,6 +77,7 @@ export default {
             }
             this.empty = this.articleArr.length === 0;
             this.changeLoading(false);
+            NProgress.done();
         }
     },
     watch: {

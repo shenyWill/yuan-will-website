@@ -32,6 +32,7 @@ import config from '@/config';
 import { parseTime } from '@/utils';
 import RightBar from '@/views/common/RightBar';
 import {mapActions, mapGetters} from 'vuex';
+import NProgress from 'nprogress';
 export default {
     data () {
         return {
@@ -86,9 +87,11 @@ export default {
     },
     async mounted () {
         this.changeLoading(true);
+        NProgress.start();
         await this.bannerResponseAPI();
         await this.articleResponseAPI();
         this.changeLoading(false);
+        NProgress.done();
     }
 };
 </script>

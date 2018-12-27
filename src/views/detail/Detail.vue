@@ -1,8 +1,13 @@
 <template>
     <div class="detail">
-        <div class="detail-title">{{title}}</div>
-        <p class="detail-explain">{{author}} 发表于：{{time}} &nbsp;&nbsp;&nbsp;分类：{{category}}</p>
-        <div class="detail-content" v-html="content"></div>
+        <div class="detail-box">
+            <div class="detail-title">{{title}}</div>
+            <p class="detail-explain">{{author}} 发表于：{{time}} &nbsp;&nbsp;&nbsp;分类：{{category}}</p>
+            <div class="detail-content" v-html="content"></div>
+        </div>
+        <Author></Author>
+        <AddComment :id="postId"></AddComment>
+        <ShowComment :id="postId"></ShowComment>
     </div>
 </template>
 
@@ -11,6 +16,10 @@ import api from '@/api';
 import config from '@/config';
 import { mapGetters, mapActions } from 'vuex';
 import { parseTime, smoothscroll } from '@/utils';
+import Author from '@/views/detail/Author';
+import AddComment from '@/views/detail/AddComment';
+import ShowComment from '@/views/detail/ShowComment';
+import NProgress from 'nprogress';
 export default {
     data () {
         return {
@@ -19,8 +28,14 @@ export default {
             time: '',
             category: '',
             categories: '',
-            content: ''
+            content: '',
+            postId: ''
         };
+    },
+    components: {
+        Author,
+        AddComment,
+        ShowComment
     },
     computed: {
         ...mapGetters([
@@ -33,6 +48,7 @@ export default {
         ]),
        async responseAPI () {
            this.changeLoading(true);
+           NProgress.start();
            const response = await api.get(config.home.lastestArt + '/' + this.$route.query.id);
            if (Number(response.status) === 200) {
                this.title = response.data.title.rendered;
@@ -52,14 +68,17 @@ export default {
                this.content = response.data.content.rendered;
            }
            this.changeLoading(false);
+           NProgress.done();
        }
     },
     mounted () {
+        this.postId = this.$route.query.id;
         this.responseAPI();
         smoothscroll();
     },
     watch: {
         '$route' (to, from) {
+            this.postId = this.$route.query.id;
             this.responseAPI();
             smoothscroll();
         },
@@ -84,6 +103,11 @@ export default {
 .detail {
     text-align: left;
     overflow: hidden;
+    background-color: #eeeeee;
+    .detail-box {
+        background-color: #fff;
+        border-radius: 10px;
+    }
     .detail-title {
         height: 80px;
         line-height: 80px;

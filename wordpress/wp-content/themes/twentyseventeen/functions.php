@@ -486,6 +486,10 @@ function twentyseventeen_content_image_sizes_attr( $sizes, $size ) {
 	return $sizes;
 }
 add_filter( 'wp_calculate_image_sizes', 'twentyseventeen_content_image_sizes_attr', 10, 2 );
+/**
+ * 允许未登录评论
+ */
+add_filter('rest_allow_anonymous_comments', '__return_true');
 
 /**
  * Filter the `sizes` value in the header image markup.

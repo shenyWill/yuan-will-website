@@ -1,5 +1,5 @@
 import axios from 'axios';
-import NProgress from 'nprogress';
+// import NProgress from 'nprogress';
 const service = axios.create({
   // global axios config
 });
@@ -9,10 +9,10 @@ const service = axios.create({
  *
  **/
 service.interceptors.request.use(config => {
-  NProgress.start();
+  // NProgress.start();
   return config;
 }, error => {
-  NProgress.start();
+  // NProgress.start();
   return Promise.reject(error);
 });
 
@@ -21,10 +21,10 @@ service.interceptors.request.use(config => {
  *
  **/
 service.interceptors.response.use(response => {
-  NProgress.done();
+  // NProgress.done();
   return response;
 }, error => {
-  NProgress.done();
+  // NProgress.done();
   return Promise.reject(error);
 });
 

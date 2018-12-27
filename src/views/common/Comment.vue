@@ -4,7 +4,7 @@
         <ul class="comment-nav" v-for="item in commentList" :key="item.id+Math.random()">
             <li class="comment-list">
                 <div class="comment-author">
-                    <img :src="item.nameImg" alt="">
+                    <img :src="item.author ? adminSrc : customerSrc" alt="">
                     <div class="comment-author-detail">
                         <span class="comment-author-name">{{item.name}}</span>
                         <span class="comment-author-time">{{item.time}}</span>
@@ -12,7 +12,7 @@
                 </div>
                 <div class="comment-say">
                     <span>评论了：&nbsp;</span>
-                    <span class="comment-say-article"><router-link :to="'/article/' + item.id">{{item.articleTitle && (item.articleTitle.length > 9 ? (item.articleTitle.substring(0,9) + '...') : item.articleTitle)}}</router-link></span>
+                    <span class="comment-say-article"><router-link :to="'/detail?id=' + item.id">{{item.articleTitle && (item.articleTitle.length > 9 ? (item.articleTitle.substring(0,9) + '...') : item.articleTitle)}}</router-link></span>
                     <span>&nbsp;&nbsp;说：</span>
                 </div>
                 <div class="comment-context">{{item.articleContext}}</div>
@@ -29,7 +29,9 @@ import { parseTime } from '@/utils';
 export default {
     data () {
         return {
-            commentList: []
+            commentList: [],
+            adminSrc: 'http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/517c04c8t658394f6e6c2.jpg',
+            customerSrc: 'http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/52874d1f1c8558ca9bf6739f61e93deb.jpg'
         };
     },
     async mounted () {
@@ -69,11 +71,9 @@ export default {
             if (Number(response.status) === 200) {
                 response.data.forEach(item => {
                     let obj = {};
-                    for (let key in item['author_avatar_urls']) {
-                        obj.nameImg = item['author_avatar_urls'][key];
-                    }
                     obj.name = item['author_name'];
                     obj.time = parseTime(item.date);
+                    obj.author = item.author;
                     obj.id = item.post;
                     obj.articleTitle = this.articleTitleList[item.post];
                     obj.articleContext = item.content.rendered.replace(/<\/?.+?>/g, '');
@@ -114,6 +114,7 @@ export default {
     }
     .comment-nav {
         padding: 10px 20px 10px 30px;
+        margin: 5px 0;
     }
     .comment-list {
         height: 140px;
