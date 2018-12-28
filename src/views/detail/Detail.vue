@@ -78,6 +78,7 @@ export default {
     },
     watch: {
         '$route' (to, from) {
+            if (to.query.id === from.query.id) return;
             this.postId = this.$route.query.id;
             this.responseAPI();
             smoothscroll();
