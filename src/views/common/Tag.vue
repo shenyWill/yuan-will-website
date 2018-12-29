@@ -4,7 +4,7 @@
         <ul class="tag-nav">
             <li v-if="index < 11" :class="['tag-list', 'color-'+item.id%5]" v-for="(item, index) in tagList" :key="item.id"><a :href="'/tag?id=' + item.id">{{item.name}}</a></li>
         </ul>
-        <a href="#/tags" class="tag-more">更多>></a>
+        <router-link to="/tags" class="tag-more">更多>></router-link>
     </div>
 </template>
 
