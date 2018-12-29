@@ -14,6 +14,7 @@
                 </div>
             </div>
         </div>
+        <div class="next-page-comment" v-if="commentList.length" @click="addComment">{{pageDesc}}</div>
         <div class="comment-empty" v-if="!commentList.length">
             <i class="iconfont icon-empty"></i>
             暂无评论~~~
@@ -29,19 +30,26 @@ export default {
     data () {
         return {
             commentList: [],
+            totalPage: 0,
+            pageDesc: '更多评论',
+            currentPage: 1,
             adminSrc: 'http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/517c04c8t658394f6e6c2.jpg',
             customerSrc: 'http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/52874d1f1c8558ca9bf6739f61e93deb.jpg'
         };
     },
     props: ['id'],
     methods: {
-        async responseAPI () {
-            const response = await api.get(config.comments.list, {post: this.id});
+        async responseAPI (data = {post: this.id}) {
+            const response = await api.get(config.comments.list, data);
             if (Number(response.status) === 200) {
-                this.commentList = [...response.data];
+                this.commentList = [...this.commentList, ...response.data];
+                this.totalPage = response.headers['x-wp-totalpages'];
+                if (Number(this.totalPage) === Number(this.currentPage)) {
+                    this.pageDesc = '无更多评论了';
+                }
                 this.commentList.forEach(item => {
                     item.date = parseTime(item.date);
-                    item.content = item.content.rendered.replace(/<\/?.+?>/g, '');
+                    item.content.rendered && (item.content = item.content.rendered.replace(/<\/?.+?>/g, ''));
                     if (Number(item.author) === 1) {
                         this.commentList.forEach(childrenItem => {
                             if (item.parent === childrenItem.id) {
@@ -51,6 +59,11 @@ export default {
                     }
                 });
             }
+        },
+        async addComment () {
+            if (this.totalPage <= this.currentPage) return;
+            this.currentPage++;
+            this.responseAPI({post: this.id, page: this.currentPage});
         }
     },
     mounted () {
@@ -167,6 +180,21 @@ export default {
             left: 495px;
             line-height: 30px;
             color: #0066ff;
+        }
+    }
+    .next-page-comment {
+        width: 200px;
+        margin: 30px auto 20px auto;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        background-color: #008aff;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        &:hover {
+            background-color: #0066ff;
         }
     }
 }

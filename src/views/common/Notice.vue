@@ -1,6 +1,6 @@
 <template>
     <div class="notice">
-        <div class="notice-title">网站公告</div>
+        <div class="notice-title"><i class="iconfont icon-navicon-gggl"></i>网站公告</div>
         <p class="notice-contain">本网站采用vue+wordpress,网站源码存放在个人GitHub上</p>
         <a class="notice-github" href="https://github.com/shenyWill/yuan-will-website" target="_black">
         <img src="http://www.yuanwill.cn/wordpress/wp-content/uploads/2018/12/timg.jpg" alt="图片出差了"></a>
@@ -17,7 +17,7 @@
     .notice-title {
         font-size: 24px;
         position: relative;
-        padding: 40px 30px 20px 30px;
+        padding: 40px 30px 20px 70px;
         box-sizing: border-box;
         color: #000;
         font-weight: bold;
@@ -31,12 +31,19 @@
             background-color: #0066ff;
             display: block;
         }
+        i {
+            position: absolute;
+            left: 30px;
+            top: 43px;
+            font-size: 24px;
+        }
     }
     .notice-contain {
         font-size: 18px;
         padding: 0 30px 5px 30px;
         margin-bottom: 0;
         line-height: 35px;
+        margin-top: 0;
     }
     .notice-github {
         height: 30px;

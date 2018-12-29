@@ -11,12 +11,14 @@ import Categories from '@/views/categories/Categories';
 
 import Detail from '@/views/detail/Detail';
 
+import Tags from '@/views/tag/Tags';
+
 Vue.use(Router);
 Vue.use(ElementUI);
 
 export default new Router({
-  mode: 'history',
-  base: '/',
+  // mode: 'history',
+  // base: '/',
   routes: [
     {
       path: '/',
@@ -37,6 +39,11 @@ export default new Router({
         component: Detail,
         name: 'Detail',
         meta: { title: '文章详情', icon: '', cache: false }
+      }, {
+        path: '/tags',
+        component: Tags,
+        name: 'Tags',
+        meta: { title: '标签云', icon: '', cache: false }
       }]
     }
   ]

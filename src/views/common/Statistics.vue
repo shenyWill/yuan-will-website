@@ -1,6 +1,6 @@
 <template>
     <div class="statistics">
-        <div class="statistics-title">站点统计</div>
+        <div class="statistics-title"><i class="iconfont icon-tongji"></i>站点统计</div>
         <div class="statistics-content">
             <span>文章总数：{{this.articleCount}}篇</span>
             <span>评论总数：{{this.commentCount}}个</span>
@@ -41,7 +41,7 @@ export default {
     .statistics-title {
         font-size: 24px;
         position: relative;
-        padding: 40px 30px 20px 30px;
+        padding: 40px 30px 20px 70px;
         box-sizing: border-box;
         color: #000;
         font-weight: bold;
@@ -55,9 +55,15 @@ export default {
             background-color: #0066ff;
             display: block;
         }
+        i {
+            position: absolute;
+            left: 30px;
+            top: 43px;
+            font-size: 26px;
+        }
     }
     .statistics-content {
-        padding: 10px 0px 10px 30px;
+        padding: 0px 0px 10px 30px;
         font-size: 16px;
         color: #666;
         overflow: hidden;

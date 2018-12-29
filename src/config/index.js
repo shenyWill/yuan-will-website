@@ -8,5 +8,8 @@ export default {
     },
     categories: {
         list: '/wordpress/wp-json/wp/v2/categories'
+    },
+    tags: {
+        list: '/wordpress/wp-json/wp/v2/tags'
     }
 };

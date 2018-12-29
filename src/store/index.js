@@ -10,7 +10,8 @@ const state = {
     updateTime: '', // 最近更新时间
     categoriesList: [], // 分类列表
     mediaList: [], // 图片列表
-    loading: false // 全局loading
+    loading: false, // 全局loading
+    tagList: [] // 标签云列表
 };
 
 const mutations = {
@@ -34,6 +35,9 @@ const mutations = {
     },
     CHANGE_LOADING (state, boolean) {
         state.loading = boolean;
+    },
+    SET_TAG_LIST (state, list) {
+        state.tagList = [...list];
     }
 };
 
@@ -58,6 +62,9 @@ const actions = {
     },
     changeLoading ({commit}, value) {
         commit('CHANGE_LOADING', value);
+    },
+    setTagList ({commit}, value) {
+        commit('SET_TAG_LIST', value);
     }
 };
 
@@ -68,7 +75,8 @@ const getters = {
     updateTime: state => state.updateTime,
     categoriesList: state => state.categoriesList,
     mediaList: state => state.mediaList,
-    loading: state => state.loading
+    loading: state => state.loading,
+    tagList: state => state.tagList
 };
 
 const store = new Vuex.Store({

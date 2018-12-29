@@ -1,6 +1,6 @@
 <template>
     <div class="comment">
-        <div class="comment-title">最新评论</div>
+        <div class="comment-title"><i class="iconfont icon-pinglun1"></i>最新评论</div>
         <ul class="comment-nav" v-for="item in commentList" :key="item.id+Math.random()">
             <li class="comment-list">
                 <div class="comment-author">
@@ -97,7 +97,7 @@ export default {
     .comment-title {
         font-size: 24px;
         position: relative;
-        padding: 40px 30px 20px 30px;
+        padding: 40px 30px 20px 70px;
         box-sizing: border-box;
         color: #000;
         font-weight: bold;
@@ -110,6 +110,12 @@ export default {
             width: 40px;
             background-color: #0066ff;
             display: block;
+        }
+        i {
+            position: absolute;
+            left: 30px;
+            top: 45px;
+            font-size: 26px;
         }
     }
     .comment-nav {
